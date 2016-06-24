@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+//membuat kelas MOTOR
+struct MOTOR {
+string merk;
+string tahun;
+string nopolisi;
+string warna;
+};
+
+MOTOR yamaha;
+
+    void setmotor(){
+        cout<<"merk = ";
+        getline(cin,yamaha.merk);
+        cout<<"tahun = ";
+        cin>>yamaha.tahun;
+        cout<<"nopolisi = ";
+        cin>>yamaha.nopolisi;
+        cout<<"warna = ";
+        cin>>yamaha.warna;
+    }
+
+    void ShowInfoMotor() {
+        cout<<"-------------------------------"<<endl;
+        cout<<"merk         : "<<yamaha.merk<<endl;
+        cout<<"tahun        : "<<yamaha.tahun<<endl;
+        cout<<"No Polisi    : "<<yamaha.nopolisi<<endl;
+        cout<<"warna        : "<<yamaha.warna<<endl;
+    }
+
+//fungsi utama
+int main() {
+
+
+    setmotor();
+    ShowInfoMotor();
+
+    return 0;
+}
