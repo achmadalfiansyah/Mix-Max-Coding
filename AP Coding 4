@@ -1,0 +1,237 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+typedef struct t1tag
+{
+char nm[20];
+} t1;
+t1 Typs[] = {"keyword", "operator", "identifier", "number", "string", "illegal character",
+"assignment", "Tanda_Kurung", "end of series", "relational operator",
+"array start", "array end", "seperator", "Unary operator",
+"compiler directive", "converter", "range"};
+// These are some reserved words in Pascal.
+t1 Rsrv[] = {"BEGIN","END","IF","THEN","ELSE","DO","FOR","TO","WHILE","REPEAT",
+"UNTIL","PROCEDURE","FUNCTION","INTEGER","REAL","BYTE","CHAR",
+"TEXT", "ARRAY","VAR","RECORD","SET","TYPE","AND","CASE","CONST",
+"DIV", "DOWNTO","EXTERNAL","FILE","FORWARD","GOTO","IN","INLINE",
+"INTERRUPT", "LABEL","MOD","NIL","NOT","OF","OR","PACKED","PROGRAM",
+"WITH", "BOOLEAN","INPUT","OUTPUT", "WRITE", "WRITELN" };
+long s = 49;
+char oprtr[] = { '.', ',', ';', '=', ':', '[', ']', '(', ')', '-', '+', '/', '*',
+'>', '<', '$', '#', '@'};
+long t = 18;
+typedef struct ttyptg
+{
+long no;
+char ctkn[50];
+int typ;
+long lline;
+} ttyp;
+int isReserved(char tmp[])
+{
+long i=0;
+char *str;
+str = strupr( strdup( tmp ) );
+while ( (i < s) && ( strcmp(str, Rsrv[i].nm) != 0) )
+{
+i++;
+}
+if ( strcmp(str, Rsrv[i].nm) != 0) // Bukan a keyword
+return 1;
+return 0;
+}
+int main(void)
+{
+long i, j, ind, zz, N, NN, ln;
+char ch, nxt, instr[1024], tmp[100], FName[256];
+ttyp Token[1024];
+FILE *f;
+printf("Masukkan Nama File Source code: ");
+scanf("%s", FName);
+f = fopen(FName,"r");
+ln = 0;
+NN = 0;
+while (!feof(f))
+{
+N = 0;
+ch = 0;
+while ( ('\n' != (ch = getc(f))) && (!feof(f)) )
+{
+instr[N] = ch;
+N++;
+}
+instr[N] = 0;
+N++;
+//  Pengecheckan TOKEN dimulai di coding ini
+ind = 0;
+while (ind < (N-1))  //
+{
+ch = instr[ind];
+while (ch == 32)
+{
+ind++;
+ch = instr[ind];
+}
+if ( ind < N )
+{
+
+j = 0;
+while( (j < t) && (ch != oprtr[j]) )
+j++;
+if ( ch == oprtr[j] )
+{
+zz = 0;
+tmp[0] = ch;
+if ( ind < N )
+nxt = instr[ind + 1];
+if ((nxt == '>') || (nxt == '=')) // untuk membuktikan penggunaan tanda yang berhubungan dengan kurung dan sama dengan
+{
+zz++;
+tmp[1] = nxt;
+ind +=2;
+if ( nxt == '>' )
+Token[NN].typ = 9; // relasi operator
+}
+else if ( (ch == '.') && (nxt == '.'))
+{
+zz++;
+tmp[1] = nxt;
+ind +=2;
+Token[NN].typ = 16;
+}
+else
+ind++;
+switch (ch)
+{
+case ':': if (nxt == '=')
+Token[NN].typ = 6;
+else
+Token[NN].typ = 1;
+break;
+case '+':
+case '-':
+case '*':
+case '/': Token[NN].typ = 1; break; // operator
+case '.': if ( nxt != '.')
+Token[NN].typ = 1; break; // operator
+case ';': Token[NN].typ = 8; break; // end of series
+case ',': Token[NN].typ = 12; break; // seperator
+case '=':
+case '>':
+case '<': Token[NN].typ = 9; break; // relational oparator
+case '[': Token[NN].typ = 10; break; // array start
+case ']': Token[NN].typ = 11; break; // array end
+case '(':
+case ')': Token[NN].typ = 7; break; // Kurung
+case '$': Token[NN].typ = 14; break; // compiler directive
+case '#': Token[NN].typ = 15; break; // ASCII converter
+case '@': Token[NN].typ = 13; break; // unary operator
+}
+zz++;
+tmp[zz] = 0;
+Token[NN].no = NN;
+strcpy(Token[NN].ctkn, tmp);
+Token[NN].lline = ln;
+NN++;
+}
+else if (ch == 39) // 39 = sebagai string yang dimulai
+{
+zz = 0;
+ind++;
+nxt = instr[ind];
+tmp[0] = nxt;
+while ( nxt != 39) // akhir dari string
+{
+zz++;
+ind++;
+tmp[zz] = nxt = instr[ind];
+}
+tmp[zz] = 0;
+Token[NN].no = NN;
+strcpy(Token[NN].ctkn, tmp);
+Token[NN].typ = 4;
+Token[NN].lline = ln;
+NN++;
+ind++;
+}
+else if ( ((ch >= 65) && (ch <= 90)) || ((ch >= 97) &&
+(ch <= 122)) || (ch == 95) )
+
+{
+zz = 0;
+tmp[0] = ch;
+nxt = instr[ind + 1];
+zz++;
+while ( ((nxt >= 65) && (nxt <= 90)) || ((nxt >= 97) &&
+(nxt <= 122)) || (nxt == 95) || ((nxt >= 48) && (nxt <= 57)) )
+// A..Z arasy, a..z arasy, '_', 0..9 arasy
+{
+ind++;
+ch = instr[ind];
+tmp[zz] = ch;
+zz++;
+nxt = instr[ind + 1];
+}
+tmp[zz] = 0;
+if ( isReserved(tmp) == 0)
+Token[NN].typ = 0; // keyword = kata-kata yang telah tersimpan kata-kata reserved.
+else
+Token[NN].typ = 2; // identifier
+Token[NN].no = NN;
+strcpy(Token[NN].ctkn, tmp);
+Token[NN].lline = ln;
+NN++;
+ind++;
+}
+else if ( (ch >= 48) && (ch <= 57) )    // 0..9 : 'number'
+{
+zz = 0;
+tmp[0] = ch;
+nxt = instr[ind + 1];
+zz++;
+while ( ((nxt >= 48) && (nxt <= 57)) )    // untuk mengambil angka dari 0 - 9
+{
+ind++;
+ch = instr[ind];
+tmp[zz] = ch;
+zz++;
+nxt = instr[ind + 1];
+}
+tmp[zz] = 0;
+Token[NN].typ = 3;
+Token[NN].no = NN;
+strcpy(Token[NN].ctkn, tmp);
+Token[NN].lline = ln;
+NN++;
+ind++;
+}
+else
+{
+Token[NN].no = NN;
+Token[NN].ctkn[0] = ch;
+Token[NN].ctkn[1] = 0;
+Token[NN].typ = 5;
+Token[NN].lline = ln;
+NN++;
+ind++;
+} // if
+} // if
+} // while
+ln++; // untuk menambahkan garis secara satu-persatu
+} // while
+fclose(f);
+printf("\n");
+printf("\n Cek hasil scanner berbentuk Text.");
+f = fopen("File Hasil Scanner.txt", "w");
+fprintf(f, "--------------------------------------------------------------\n");
+fprintf(f, "|  NO    |  LINE  |     TOKEN          |      KETERANGAN      |\n");
+fprintf(f, "--------------------------------------------------------------\n");
+for(i=0;i<NN;i++)
+{
+fprintf(f, "| %4ld   |%4ld    |%10s          |%20s |\n",
+Token[i].no, Token[i].lline, Token[i].ctkn, Typs[Token[i].typ].nm);
+fprintf(f, "--------------------------------------------------------------\n");
+}
+fclose(f);
+}
