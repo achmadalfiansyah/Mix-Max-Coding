@@ -1,0 +1,50 @@
+#include <iostream>
+
+using namespace std;
+
+struct Mahasiswa {
+int nim;
+string nama;
+int telepon;
+double tugas;
+double uts;
+double uas;
+double kuis;
+
+};
+
+Mahasiswa alfian;
+
+    void input()
+{
+        cout<<"nim = ";
+        cin>>alfian.nim;
+        cout<<"nama = ";
+        cin>>alfian.nama;
+        cout<<"telepon = ";
+        cin>>alfian.telepon;
+        cout<<"tugas = ";
+        cin>>alfian.tugas;
+        cout<<"uts = ";
+        cin>>alfian.uts;
+        cout<<"uas = ";
+        cin>>alfian.uas;
+        cout<<"kuis = ";
+        cin>>alfian.kuis;
+    }
+
+    void output() {
+        float hasil;
+        hasil=(0.25*alfian.uas)+(0.25*alfian.uts)+(0.30*alfian.tugas)+(0.20*alfian.kuis);
+        cout<<"nilai akhir = "<<hasil<<endl;
+    }
+
+//fungsi utama
+int main() {
+
+
+    input();
+    output();
+
+    return 0;
+}
