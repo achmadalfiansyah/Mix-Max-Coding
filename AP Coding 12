@@ -1,0 +1,113 @@
+#include <iostream>
+#include<iomanip>
+using namespace std;
+
+int A[3][3];
+int B[3][3];
+int C[3][3];
+
+//fungsi input Matriks A
+
+void isiA()
+{
+    cout <<"Masukkan Nilai Matriks A:"<<endl;
+    for(int i=0; i<3; i++)
+    {
+        for(int J=0; J<3; J++)
+        {
+            cout<<"A "<<"["<<i+1<<"] ["<<J+1<<"] = ";
+            cin >>A[i][J];
+        }
+        cout <<endl;
+    }
+}
+
+//fungsi input Matriks A
+void isiB()
+{
+    cout <<"Masukkan Nilai Matriks B:"<<endl;
+    for(int i=0; i<3; i++)
+    {
+        for(int J=0; J<3; J++)
+        {
+            cout<<"B "<<"["<<i+1<<"] ["<<J+1<<"] = ";
+            cin >>B[i][J];
+        }
+        cout <<endl;
+    }
+}
+
+
+//Fungsi Perkalian Matriks
+void PerkalianMatriks()
+{
+    int temp;
+    for(int i=0; i<3; i++) //perulangan pada baris
+    {
+        for(int J=0; J<3; J++)
+        {
+              C[i][J]=0;
+              for(int k=0; k<3; k++){
+                temp=A[i][k]*B[k][J];
+                C[i][J]=C[i][J]+temp;
+              }
+        }
+    }
+}
+
+
+void TampilA()
+{
+    cout <<"Matriks A : "<<endl;
+    for(int i=0; i<3; i++)
+    {
+        for(int J=0; J<3; J++)
+        {
+            cout<<setw(4)<<"["<<A[i][J]<<"]";
+        }
+        cout <<endl;
+    }
+    cout <<endl;
+}
+
+
+void TampilB()
+{
+    cout <<"Matriks B : "<<endl;
+    for(int i=0; i<3; i++)
+    {
+        for(int J=0; J<3; J++)
+        {
+            cout<<setw(4)<<"["<<B[i][J]<<"]";
+        }
+        cout <<endl;
+    }
+    cout <<endl;
+}
+
+
+
+void TampilC()
+{
+    cout <<"Hasil Perkalian Matriks A dan B "<<endl;
+    cout <<"Matirks C: "<<endl;
+    for(int i=0; i<3; i++)
+    {
+        for(int J=0; J<3; J++)
+        {
+            cout<<setw(4)<<"["<<C[i][J]<<"]";
+        }
+        cout <<endl;
+    }
+    cout <<endl;
+}
+
+int main()
+{
+    isiA();
+    isiB();
+    PerkalianMatriks();
+    TampilA();
+    TampilB();
+    TampilC();
+}
