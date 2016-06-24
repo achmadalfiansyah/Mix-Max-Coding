@@ -1,0 +1,55 @@
+#include <iostream>
+
+using namespace std;
+
+int bilangan1;
+int bilangan2;
+
+//deklarasi
+void perkalian();
+void pembagian();
+void penjumlahan();
+void pengurangan();
+
+//sub program
+void perkalian(){
+int kali;
+kali=bilangan1*bilangan2;
+cout<<" Hasil Perkalian = "<<kali<<endl;
+}
+
+void pembagian(){
+int bagi;
+bagi=bilangan2/bilangan1;
+cout<<" hasil pembagian = "<<bagi<<endl;
+}
+
+void penjumlahan(){
+int jumlah;
+jumlah=bilangan2+bilangan1;
+cout<<" hasil penjumlahan = "<<jumlah<<endl;
+}
+
+void pengurangan(){
+int kurang;
+kurang=bilangan2-bilangan1;
+cout<<" hasil pengurangan = "<<kurang<<endl;
+}
+
+int main()
+{
+
+    cout<<"masukkan bilangan 1 = ";
+    cin>>bilangan1;
+    cout<<endl;
+    cout<<"masukkan bilangan 2 = ";
+    cin>>bilangan2;
+    perkalian();
+    pembagian();
+    pengurangan();
+    penjumlahan();
+
+        return 0;
+}
+
+
