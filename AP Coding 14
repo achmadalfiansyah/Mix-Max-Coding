@@ -1,0 +1,22 @@
+#include <iostream>
+#include<iomanip>
+using namespace std;
+
+	struct pecahan
+	{
+		int pembilang;
+		int penyebut;
+
+	};
+
+int main()
+{
+	pecahan pecahan1, pecahan2;
+	cout<<"masukkan pecahan 1 : ";
+	cout<<"masukkan pembilang pecahan 1 : ";
+	cin>>pecahan1.pembilang<<endl;
+
+	cout<<"masukkan penyebut pecahan 1 : ";
+	cin>>pecahan1.pembilang<<endl;
+
+}
