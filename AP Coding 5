@@ -1,0 +1,23 @@
+// nama program : struktur2
+// contoh penugasan  struktur
+
+#include <iostream>
+void main()
+{
+	struct data_tanggal //pendefinisian
+	{
+		int tahun;
+		int bulan;
+		int tanggal;
+	};
+	data_tanggal tgl1,tgl2;//pendefinisian struktur
+	// pengaksesan per anggota struktur
+	tgl1.tanggal = 1;
+	tgl1.bulan = 9;
+	tgl1.tahun = 1964;
+	//penugasan antar variabel struktur
+	tgl2 = tgl1;
+	cout<<tgl2.tanggal<<'/'
+		<<tgl2.bulan<<'/'
+		<<tgl2.tahun<<endl;
+}
